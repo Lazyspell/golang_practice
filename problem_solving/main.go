@@ -42,15 +42,18 @@ func main() {
 	// testParts.printParts()
 	// ["a", "b", "c", 'd', 'e', 'f','p', 'o', 'o', 'p']
 
-	list := []string{"a", "b", "c", "d", "e", "f", "p", "o", "o", "p"}
+	// list := []string{"a", "b", "c", "d", "e", "f", "p", "o", "o", "p"}
 
-	test := ransomNote(list, "pooop")
-	fmt.Println(test)
+	// test := ransomNote(list, "pooop")
+	// fmt.Println(test)
 
-	fibValue := fib(8)
-	fmt.Println(fibValue)
-	twoValue := twoSums([]int{1, 3, 2, 2, 2}, 4)
-	fmt.Println(twoValue)
+	// fibValue := fib(8)
+	// fmt.Println(fibValue)
+	// twoValue := twoSums([]int{1, 3, 2, 2, 2}, 4)
+	// fmt.Println(twoValue)
+
+	indicesValue := indices([]int{1, 1, 3, 3, 5, 7, 8, 8, 9, 9, 9, 15}, 5)
+	fmt.Println(indicesValue)
 
 }
 
@@ -253,4 +256,25 @@ func twoSums(list []int, target int) [][]int {
 
 	}
 	return finalList
+}
+
+func indices(list []int, num int) []int {
+	var finalList []int
+	var emptyList []int
+	var seen []int
+	for index, value := range list {
+		if value == num {
+			seen = append(seen, index)
+		}
+	}
+
+	if len(seen) <= 1 {
+		return emptyList
+	} else {
+
+		finalList = append(finalList, seen[0], seen[len(seen)-1])
+	}
+
+	return finalList
+
 }
