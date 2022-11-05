@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"sort"
 	"strings"
 )
 
@@ -49,11 +50,55 @@ func main() {
 
 	// fibValue := fib(8)
 	// fmt.Println(fibValue)
-	// twoValue := twoSums([]int{1, 3, 2, 2, 2}, 4)
+	// twoValue := twoSum([]int{3, 2, 4}, 6)
 	// fmt.Println(twoValue)
 
-	indicesValue := indices([]int{1, 1, 3, 3, 5, 7, 8, 8, 9, 9, 9, 15}, 5)
-	fmt.Println(indicesValue)
+	// indicesValue := indices([]int{1, 1, 3, 3, 5, 7, 8, 8, 9, 9, 9, 15}, 5)
+	// fmt.Println(indicesValue)
+
+	// badVersionValue := firstBadVersion(5)
+
+	// fmt.Println("___________________________________")
+	// fmt.Println(badVersionValue)
+
+	// searchInsert := searchInsert2([]int{1, 3, 5, 6}, 0)
+	// fmt.Println(searchInsert)
+
+	// pivotList := []int{1, 7, 3, 6, 5, 6}
+	// left := pivotList
+
+	// rotateList := []int{1, 2, 0, 3, 4, 0, 5, 6, 7}
+	// zeroList := []int{1, 0, 0}
+
+	// rotateList = rotate(rotateList, 3)
+	// fmt.Println(rotateList)
+
+	// fmt.Println(reverseString("tes"))
+
+	// fmt.Println(10 % 10)
+
+	// deleteFromValue := deleteFromSlice(zeroList)
+
+	// fmt.Println(deleteFromValue)
+
+	// moveZeroes(rotateList)
+
+	// reverseValue := reverseString2("Hello world")
+	// fmt.Println(reverseValue)
+
+	// testMap := make(map[string]int)
+
+	// testMap["test1"] = 3
+	// testMap["test2"] = 4
+
+	// stringTest := "tes"
+
+	// stringList := []string{"h", "e", "l", "l", "o"}
+	// reverseString3(stringList)
+	// fmt.Println(len(rotateList))
+
+	valueWord := reverseWords("Let's take LeetCode contest")
+	fmt.Println(valueWord)
 
 }
 
@@ -240,22 +285,42 @@ func fib(num int) int {
 	}
 }
 
-func twoSums(list []int, target int) [][]int {
-	var finalList [][]int
+// func twoSums(list []int, target int) [][]int {
+// 	var finalList [][]int
+// 	seen := make(map[int]bool)
+
+// 	for _, value := range list {
+// 		difference := target - value
+// 		if !seen[difference] {
+// 			seen[value] = true
+// 		} else {
+// 			combination := []int{difference, value}
+// 			finalList = append(finalList, combination)
+// 			delete(seen, difference)
+// 		}
+
+// 	}
+// 	return finalList
+// }
+
+// [3,2,4]
+// 6
+func twoSum(nums []int, target int) []int {
 	seen := make(map[int]bool)
+	indexes := make(map[int]int)
+	var final []int
+	for index, value := range nums {
+		diff := target - value
+		fmt.Println(seen[diff])
+		if !seen[diff] {
 
-	for _, value := range list {
-		difference := target - value
-		if !seen[difference] {
 			seen[value] = true
+			indexes[value] = index
 		} else {
-			combination := []int{difference, value}
-			finalList = append(finalList, combination)
-			delete(seen, difference)
+			final = append(final, indexes[diff], index)
 		}
-
 	}
-	return finalList
+	return final
 }
 
 func indices(list []int, num int) []int {
@@ -277,4 +342,209 @@ func indices(list []int, num int) []int {
 
 	return finalList
 
+}
+
+func isBadVersion(num int) bool {
+	if num != 1 {
+		return false
+	}
+	return true
+}
+
+func firstBadVersion(n int) int {
+
+	return firstBadRec(1, n)
+}
+
+func firstBadRec(left, right int) int {
+
+	if left == right {
+		return left
+	}
+
+	if middle := (left + right) / 2; isBadVersion(middle) {
+		return firstBadRec(left, middle)
+	} else {
+		return firstBadRec(middle+1, right)
+	}
+
+}
+
+func searchInsert(nums []int, target int) int {
+	return sort.SearchInts(nums, target)
+}
+
+func searchInsert2(nums []int, target int) int {
+	for index, value := range nums {
+		if value > target {
+			return index
+		}
+		if value == target {
+			return index
+		}
+	}
+	return len(nums)
+}
+
+func pivotIndex(list []int) int {
+	var left int
+	for _, value := range list {
+		left += value
+	}
+
+	var right int
+	for index, value := range list {
+		if left-value-right == right {
+			return index
+		}
+		right += value
+	}
+	return -1
+}
+
+// func merge2(left, right []int) []int {
+
+// }
+
+// func mergeSort2(list []int) []int {
+// 	if len(list) <= 1 {
+// 		return list
+// 	}
+// 	middle := len(list) / 2
+// 	left := mergeSort2(list[:middle])
+// 	right := mergeSort2(list[middle:])
+
+// 	final := merge2(left, right)
+
+// 	return final
+
+// }
+
+func rotate(nums []int, k int) []int {
+	idx := len(nums) - (k % len(nums))
+
+	nums = append(nums[idx:], nums[:idx]...)
+	return nums
+}
+
+func reverseString(str string) (result string) {
+	// iterate over str and prepend to result
+	for _, v := range str {
+		result = string(v) + result
+		fmt.Println(result)
+	}
+	return
+}
+
+type ListNode struct {
+	Val  int
+	Next *ListNode
+}
+
+func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
+	cur := new(ListNode)
+	ret := cur
+	sum := 0
+
+	for l1 != nil || l2 != nil {
+
+		if l1 != nil {
+
+			sum = sum + l1.Val
+			l1 = l1.Next
+		}
+
+		if l2 != nil {
+			sum = sum + l2.Val
+			l2 = l2.Next
+		}
+		fmt.Print(sum)
+
+		cur.Next = &ListNode{
+			sum % 10,
+			nil,
+		}
+
+		cur = cur.Next
+		sum = sum / 10
+
+	}
+
+	if sum > 0 {
+		cur.Next = &ListNode{sum, nil}
+	}
+
+	return ret.Next
+
+}
+
+func deleteFromSlice(list []int) []int {
+
+	var zeroCount []int
+	var countingZero int
+
+	for _, value := range list {
+		if value == 0 {
+			countingZero++
+		}
+	}
+
+	if countingZero == len(list) {
+		return list
+	}
+
+	for index, value := range list {
+		if value == 0 {
+			zeroCount = append(zeroCount, value)
+			list = append(list[:index], list[index+1:]...)
+		}
+	}
+
+	fmt.Println(zeroCount)
+
+	list = append(list, zeroCount...)
+	return list
+}
+
+func moveZeroes(nums []int) {
+	writepointer := 0
+	for index, value := range nums {
+		fmt.Println(nums, index, writepointer)
+		if value != 0 {
+			nums[index], nums[writepointer] = nums[writepointer], nums[index]
+			writepointer++
+		}
+	}
+}
+
+func reverseString2(word string) string {
+
+	var final string
+	for _, value := range word {
+		final = string(value) + final
+	}
+
+	return final
+}
+
+func isSubsequence(s, t string) bool {
+	for _, c := range s {
+		if i := strings.IndexRune(t, c); i == -1 {
+			return false
+		} else {
+			t = t[i+1:]
+		}
+	}
+	return true
+}
+
+func reverseWords(s string) string {
+	stringSlice := strings.Split(s, " ")
+	for index, value := range stringSlice {
+		stringSlice[index] = reverseString2(value)
+	}
+
+	final := strings.Join(stringSlice[:], " ")
+
+	return final
 }
