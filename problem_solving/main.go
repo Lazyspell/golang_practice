@@ -158,6 +158,12 @@ func main() {
 	result := maxProfit([]int{7, 1, 5, 3, 6, 4})
 	fmt.Println(result)
 
+	// [0,30],[5,10],[15,20]
+
+	minMeetingRooms([][]int{{0, 30}, {5, 10}, {15, 20}})
+
+	maxNumber([]int{-2, 0, -1})
+
 }
 
 func anagram(word1 string, word2 string) bool {
@@ -791,4 +797,63 @@ func maxProfit(prices []int) int {
 		}
 	}
 	return max
+}
+
+func minMeetingRooms(intervals [][]int) int {
+	var final int
+
+	return final
+}
+
+func maxValue(num1, num2 int) int {
+	if num1 > num2 {
+		return num1
+	}
+	return num2
+}
+
+func minValue(num1, num2 int) int {
+	if num1 < num2 {
+		return num1
+	}
+	return num2
+}
+
+func maxNumber(nums []int) int {
+	crrMax := nums[0]
+	for _, value := range nums {
+		crrMax = maxValue(crrMax, value)
+	}
+	return crrMax
+}
+
+func maxSubArray(nums []int) int {
+
+	maxSub := nums[0]
+	curSub := 0
+
+	for _, value := range nums {
+		if curSub < 0 {
+			curSub = 0
+
+		}
+		maxSub = value + curSub
+		maxSub = maxValue(curSub, maxSub)
+	}
+
+	return maxSub
+
+}
+
+func maxProduct(nums []int) int {
+	curMax, curMin, ans := nums[0], nums[0], nums[0]
+	for i := 1; i < len(nums); i++ {
+		tmp := curMax
+		curMax = maxValue(nums[i], maxValue(tmp*nums[i], curMin*nums[i]))
+		curMin = minValue(nums[i], minValue(tmp*nums[i], curMin*nums[i]))
+		if curMax > ans {
+			ans = curMax
+		}
+	}
+	return ans
 }
